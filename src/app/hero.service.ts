@@ -34,6 +34,14 @@ export class HeroService {
 
   private headers = new Headers({'Content-Type': 'application/json'});
 
+  create(name: string): Promise<Hero> {
+    return this.http
+      .post(this.heroesUrl, JSON.stringify({name: name}), {headers: this.headers})
+      .toPromise()
+      .then(res => res.json().data as Hero)
+      .catch(this.handleError);
+  }
+
   update(hero: Hero): Promise<Hero> {
     const url = `${this.heroesUrl}/${hero.id}`;
     return this.http
